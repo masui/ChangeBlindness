@@ -24,20 +24,13 @@
     for(x=0;x<5;x++){
       for(y=0;y<5;y++){
         div = $('<div>');
-	div.css('position','absolute');
-	div.css('width','100');
-	div.css('height','100');
-	div.css('top',y*100);
-	div.css('left',x*100);
-	r = random(256);
-	g = random(256);
-	b = random(256);
+	div.css('position','absolute').css('width','100').css('height','100');
+	div.css('top',y*100).css('left',x*100);
+	[r, g, b] = [random(256), random(256), random(256)];
 	div.css('background-color',colorstr(r,g,b));
 	$('body').append(div);
 	if(x == changex && y == changey){
-	  startr = r;
-	  startg = g;
-	  startb = b;
+	  [startr, startg, startb] = [r, g, b];
 	  changediv = div;
 	}
       }
@@ -47,13 +40,10 @@
       changediv.css('border','solid');
       changediv.css('border-color','#ddd');
       changediv.css('z-index','100');
-      //alert(`x=${changex} y=${changey}`);
     },10000);
 
     while(true){
-      endr = random(256);
-      endg = random(256);
-      endb = random(256);
+      [endr, endg, endb] = [random(256), random(256), random(256)];
       if(Math.abs(endr-startr) > 100 &&
          Math.abs(endg-startg) > 100 &&
          Math.abs(endb-startb) > 100) break;
@@ -72,8 +62,8 @@
       	setTimeout(disp,10);
       }
     }
-
-    setTimeout(disp,30);
+    disp();
+		 
 </script>
 </body>
 </html>
