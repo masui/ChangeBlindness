@@ -1,0 +1,79 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>Change Blindness</title>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
+</head>
+<body>
+  <script type="text/javascript">
+    function hex2(val){
+      return ('0'+val.toString(16)).slice(-2);
+    }
+
+    function random(n){
+      return Math.floor(Math.random()*n);
+    }
+    
+    function colorstr(r,g,b){
+      return '#'+hex2(r)+hex2(g)+hex2(b);
+    }
+
+    changex = random(5);
+    changey = random(5);
+    changediv = null;
+    for(x=0;x<5;x++){
+      for(y=0;y<5;y++){
+        div = $('<div>');
+	div.css('position','absolute');
+	div.css('width','100');
+	div.css('height','100');
+	div.css('top',y*100);
+	div.css('left',x*100);
+	r = random(256);
+	g = random(256);
+	b = random(256);
+	div.css('background-color',colorstr(r,g,b));
+	$('body').append(div);
+	if(x == changex && y == changey){
+	  startr = r;
+	  startg = g;
+	  startb = b;
+	  changediv = div;
+	}
+      }
+    }
+
+    setTimeout(function(){
+      changediv.css('border','solid');
+      changediv.css('border-color','#ddd');
+      changediv.css('z-index','100');
+      //alert(`x=${changex} y=${changey}`);
+    },10000);
+
+    while(true){
+      endr = random(256);
+      endg = random(256);
+      endb = random(256);
+      if(Math.abs(endr-startr) > 100 &&
+         Math.abs(endg-startg) > 100 &&
+         Math.abs(endb-startb) > 100) break;
+    }
+	 
+    count = 0;
+    sec = 20;
+    maxcount = sec * 1000 / 10;
+    function disp(){
+      r = Math.floor((startr * (maxcount-count) + endr * count) / maxcount);
+      g = Math.floor((startg * (maxcount-count) + endg * count) / maxcount);
+      b = Math.floor((startb * (maxcount-count) + endb * count) / maxcount);
+      changediv.css('background-color',colorstr(r,g,b));
+      if(count < maxcount){
+        count += 1;
+      	setTimeout(disp,10);
+      }
+    }
+
+    setTimeout(disp,30);
+</script>
+</body>
+</html>
